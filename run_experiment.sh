@@ -26,7 +26,7 @@ make r.base && make image
 ../../get_redox_qemu_cycle_count.sh 15
 cp cycle_result.csv ../../results/baseline_redox_xhci_cycle_result.csv
 
-sleep 5
+cd ../..
 
 # Compare results.
-python3 ../../compare_eval_runs.py
+python3 compare_eval_runs.py
