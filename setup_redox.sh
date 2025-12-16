@@ -10,6 +10,7 @@ curl -sf https://gitlab.redox-os.org/redox-os/redox/raw/master/native_bootstrap.
 
 time bash -e native_bootstrap.sh -y
 source ~/.cargo/env
+source ~/.bashrc
 
 echo "[Abacus Setup Script] - Successfully setup! Now starting build..."
 
