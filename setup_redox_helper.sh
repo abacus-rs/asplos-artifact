@@ -15,5 +15,7 @@ source ~/.bashrc
 echo "[Abacus Setup Script] - Successfully setup! Now starting build..."
 
 cd redox
+# Pinned commit.
+git checkout a2ce30b797882ffdbc3660edbfa5507dd23619ee
 time make all
 

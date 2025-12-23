@@ -1,7 +1,7 @@
 #!/bin/bash
 RETRIES=5
 SLEEP=1
-HELPER="./setup_redox_helper"
+HELPER="./setup_redox_helper.sh"
 
 if [[ ! -x "$HELPER" ]]; then
   echo "Helper not found or not executable: $HELPER" >&2
