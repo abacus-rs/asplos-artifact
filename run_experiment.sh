@@ -1,32 +1,28 @@
+#!/bin/bash
+RETRIES=5
+SLEEP=1
+HELPER="./run_experiment_helper.sh"
 
-# Conduct eval using Abacus xHCI.
+if [[ ! -x "$HELPER" ]]; then
+  echo "Helper not found or not executable: $HELPER" >&2
+  exit 2
+fi
 
-# exit on errors
-set -e
+for i in $(seq 1 $RETRIES); do
+  echo "Attempt $i/$RETRIES: running $HELPER"
+  if "$HELPER"; then
+    echo "Success on attempt $i"
+    exit 0
+  fi
+  echo "Attempt $i failed"
+  if [[ $i -lt $RETRIES ]]; then
+    echo "Retrying in ${SLEEP}s..."
+    cd abacus_redox/redox || exit 1
+     git reset --hard HEAD || exit 1
+     cd ../.. || exit 1
+    sleep "$SLEEP"
+  fi
+done
 
-rm -rf results
-mkdir -p results
-
-cd abacus_redox/redox
-
-# Apply patch for abacus-redox to Redox recipe.
-git apply ../../abacus-profile.patch
-rm -rf recipes/core/base/source
-make r.base && make image
-../../get_redox_qemu_cycle_count.sh 15 
-cp cycle_result.csv ../../results/abacus_redox_xhci_cycle_result.csv
-
-# Remove patch.
-git reset --hard HEAD
-
-# Apply patch for baseline Redox recipe.
-git apply ../../base-profile.patch
-rm -rf recipes/core/base/source
-make r.base && make image
-../../get_redox_qemu_cycle_count.sh 15
-cp cycle_result.csv ../../results/baseline_redox_xhci_cycle_result.csv
-
-cd ../..
-
-# Compare results.
-python3 compare_eval_runs.py
+echo "Failed after $RETRIES attempts" >&2
+exit 1
