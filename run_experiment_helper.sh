@@ -9,6 +9,9 @@ mkdir -p results
 
 cd abacus_redox/redox
 
+# Remove any local changes.
+git reset --hard a2ce30b797882ffdbc3660edbfa5507dd23619ee
+
 # Apply patch for abacus-redox to Redox recipe.
 git apply ../../abacus-profile.patch
 rm -rf recipes/core/base/source
