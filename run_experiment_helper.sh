@@ -17,7 +17,7 @@ make r.base && make image
 cp cycle_result.csv ../../results/abacus_redox_xhci_cycle_result.csv
 
 # Remove patch.
-git reset --hard HEAD
+git reset --hard a2ce30b797882ffdbc3660edbfa5507dd23619ee
 
 # Apply patch for baseline Redox recipe.
 git apply ../../base-profile.patch
